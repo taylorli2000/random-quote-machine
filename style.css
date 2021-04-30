@@ -1,0 +1,66 @@
+:root {
+  --black: #333;
+  --white: #fbfbfb;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  line-height: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+a, button {
+  text-decoration: none;
+  border-style: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  color: var(--white);
+  margin: 1rem;
+}
+a:hover, button:hover {
+  color: var(--white);
+  filter: brightness(1.1);
+}
+a:focus, button:focus {
+  outline: none;
+}
+
+#quote-box {
+  background-color: var(--white);
+  border-radius: 0.25rem;
+  border-style: none;
+  max-width: 45vw;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+#quote, #author, #tweet-quote, #new-quote {
+  margin: 1rem;
+}
+
+#quote, #author {
+  flex: 100%;
+}
+
+#tweet-quote, #new-quote {
+  flex: content;
+}
+
+#author {
+  text-align: right;
+}
