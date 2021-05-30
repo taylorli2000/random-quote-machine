@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Button, ButtonGroup, Card, Container, Image } from "react-bootstrap";
-import twitterImage from "../assets/twitter.svg";
+import React, { useState, useEffect } from "react";
+import { Button, ButtonGroup, Card, Container } from "react-bootstrap";
+import { ReactComponent as TwitterImage } from "../assets/twitter.svg";
 
 const colors = [
   "#16a085",
@@ -16,13 +16,11 @@ const colors = [
   "#77B1A9",
   "#73A857",
 ];
+let quotesData;
 
 export default function QuoteBox() {
   const [color, setColor] = useState(getColor());
-  const [quote, setQuote] = useState(async () => {
-    const quote = await getQuote();
-    return setQuote({ text: quote.text, author: quote.author });
-  });
+  const [quote, setQuote] = useState({ text: "", author: "" });
 
   function getColor() {
     return colors[Math.floor(Math.random() * colors.length)];
@@ -39,18 +37,22 @@ export default function QuoteBox() {
     });
   }
 
-  async function getQuote() {
+  async function getQuotesData() {
     const response = await fetch(
-      "https://goquotes-api.herokuapp.com/api/v1/random?count=1"
+      "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json"
     );
-    const quote = await response.json();
-    return quote.quotes[0];
+    quotesData = await response.json();
   }
 
-  async function handleQuoteSwitch() {
-    const quote = await getQuote();
-    setQuote({ text: quote.text, author: quote.author });
+  function handleQuoteSwitch() {
+    const newQuote =
+      quotesData.quotes[Math.floor(Math.random() * quotesData.quotes.length)];
+    setQuote({ text: newQuote.quote, author: newQuote.author });
   }
+
+  useEffect(() => {
+    getQuotesData().then(handleQuoteSwitch);
+  }, []);
 
   return (
     <Container
@@ -99,19 +101,22 @@ export default function QuoteBox() {
                   marginRight: "1rem",
                   backgroundColor: color,
                   transition: "all 1s ease-in-out",
+                  borderRadius: "5px",
                 }}
               >
-                <Image
-                  src={twitterImage}
-                  rounded
-                  style={{ maxWidth: "25px" }}
-                ></Image>
+                <TwitterImage
+                  style={{
+                    maxWidth: "25px",
+                    maxHeight: "25px",
+                  }}
+                />
               </Button>
               <Button
                 variant="primary"
                 style={{
                   backgroundColor: color,
                   transition: "all 1s ease-in-out",
+                  borderRadius: "5px",
                 }}
                 onClick={() => {
                   handleColorSwitch();
